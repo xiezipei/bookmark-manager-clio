@@ -1,18 +1,40 @@
 <template>
-  <div id="app">
-    <ul>
-      <li v-for="bookmark in bookmarks" :key="bookmark.id">
-        <a :href="bookmark.url" target="_blank">{{
-          bookmark.title ? bookmark.title : bookmark.url
-        }}</a>
-        <button @click="deleteBookmark(bookmark.id)">删除</button>
-      </li>
-    </ul>
+  <div id="app" class="min-h-screen w-full bg-gray-100">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      <div
+        v-for="bookmark in bookmarks"
+        :key="bookmark.id"
+        class="bg-white rounded-lg shadow-md overflow-hidden p-4 hover:bg-gray-50"
+      >
+        <a
+          :href="bookmark.url"
+          target="_blank"
+          class="text-blue-600 hover:text-blue-800 truncate block mb-2"
+        >
+          {{ bookmark.title ? bookmark.title : bookmark.url }}
+        </a>
+        <div class="relative group">
+          <div
+            class="invisible group-hover:visible absolute inset-0 flex items-center justify-center"
+          >
+            <button
+              @click="deleteBookmark(bookmark.id)"
+              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+            >
+              删除
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 添加返回顶部按钮 -->
+    <BackToTop />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import BackToTop from './components/BackToTop.vue'
 
 // 创建一个响应式数组来存储书签
 const bookmarks = ref([])

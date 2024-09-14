@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "书签管理器",
+  "name": "Bookmark Manager Clio",
   "version": "1.0",
-  "description": "一个简单的 Chrome 书签管理扩展",
+  "description": "克里奥 - 一个简单好用的书签管理器",
   "permissions": ["bookmarks"],
   "background": {
     "service_worker": "background.js"
