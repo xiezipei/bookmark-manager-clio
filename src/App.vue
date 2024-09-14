@@ -4,7 +4,7 @@
       <div
         v-for="bookmark in bookmarks"
         :key="bookmark.id"
-        class="bg-white rounded-lg shadow-md overflow-hidden p-4 hover:bg-gray-50"
+        class="bg-white rounded-lg shadow-md overflow-hidden p-4 hover:bg-gray-50 relative group"
       >
         <a
           :href="bookmark.url"
@@ -13,22 +13,42 @@
         >
           {{ bookmark.title ? bookmark.title : bookmark.url }}
         </a>
-        <div class="relative group">
-          <div
-            class="invisible group-hover:visible absolute inset-0 flex items-center justify-center"
+        <!-- <div
+          class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          <button
+            @click="deleteBookmark(bookmark.id)"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded transition-colors duration-300 text-sm"
           >
-            <button
-              @click="deleteBookmark(bookmark.id)"
-              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
-            >
-              删除
-            </button>
-          </div>
-        </div>
+            删除
+          </button>
+        </div> -->
       </div>
     </div>
-    <!-- 添加返回顶部按钮 -->
+    <!-- 返回顶部按钮 -->
     <BackToTop />
+    <!-- 导出按钮 -->
+    <div class="fixed bottom-8 right-4 z-10">
+      <button
+        @click="exportBookmarks"
+        class="bg-green-500 hover:bg-green-600 text-white p-3 transition-colors duration-300 shadow-md"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -43,6 +63,21 @@ const bookmarks = ref([])
 onMounted(() => {
   getBookmarks()
 })
+
+/* 导出书签数据为 JSON 文件 */
+function exportBookmarks() {
+  const bookmarksJson = JSON.stringify(bookmarks.value, null, 2)
+  const blob = new Blob([bookmarksJson], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'bookmarks.json'
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(url)
+}
 
 /* 获取所有书签 */
 function getBookmarks() {
@@ -69,10 +104,12 @@ function flattenBookmarks(bookmarkNodes) {
 
 /* 删除指定 ID 的书签 */
 function deleteBookmark(id) {
-  chrome.bookmarks.remove(id, () => {
-    // 删除成功后重新获取书签列表
-    getBookmarks()
-  })
+  if (confirm('确定要删除这个书签吗？')) {
+    chrome.bookmarks.remove(id, () => {
+      // 删除成功后重新获取书签列表
+      getBookmarks()
+    })
+  }
 }
 </script>
 
