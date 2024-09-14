@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "书签管理器",
+  "version": "1.0",
+  "description": "一个简单的 Chrome 书签管理扩展",
+  "permissions": ["bookmarks"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
