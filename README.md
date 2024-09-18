@@ -1,6 +1,6 @@
-# bookmark-manager-clio
+# clio
 
-> Clio(克里奥)是九位缪斯女神之一，主管历史。她的名字意味着"使之著名"或"颂扬"，这与保存和回顾重要信息的概念相符。
+> Clio（克里奥）是九位缪斯女神之一，主管历史。她的名字意味着"使之著名"或"颂扬"。
 
 This template should help get you started developing with Vue 3 in Vite.
 
