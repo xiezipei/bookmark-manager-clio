@@ -6,23 +6,19 @@
         :key="bookmark.id"
         class="bg-white rounded-lg shadow-md overflow-hidden p-4 hover:bg-gray-50 relative group"
       >
-        <a
-          :href="bookmark.url"
-          target="_blank"
-          class="text-blue-600 hover:text-blue-800 truncate block mb-2"
-        >
-          {{ bookmark.title ? bookmark.title : bookmark.url }}
-        </a>
-        <!-- <div
-          class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          <button
-            @click="deleteBookmark(bookmark.id)"
-            class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded transition-colors duration-300 text-sm"
+        <div class="flex flex-col">
+          <a
+            :href="bookmark.url"
+            target="_blank"
+            class="text-blue-600 hover:text-blue-800 truncate block"
+            :title="bookmark.title ? bookmark.title : bookmark.url"
           >
-            删除
-          </button>
-        </div> -->
+            {{ bookmark.title ? bookmark.title : bookmark.url }}
+          </a>
+          <span class="text-xs text-gray-500 truncate" :title="bookmark.url">{{
+            bookmark.url
+          }}</span>
+        </div>
       </div>
     </div>
     <!-- 返回顶部按钮 -->
@@ -102,15 +98,15 @@ function flattenBookmarks(bookmarkNodes) {
   return flattened
 }
 
-/* 删除指定 ID 的书签 */
-function deleteBookmark(id) {
-  if (confirm('确定要删除这个书签吗？')) {
-    chrome.bookmarks.remove(id, () => {
-      // 删除成功后重新获取书签列表
-      getBookmarks()
-    })
-  }
-}
+// /* 删除指定 ID 的书签 */
+// function deleteBookmark(id) {
+//   if (confirm('确定要删除这个书签吗？')) {
+//     chrome.bookmarks.remove(id, () => {
+//       // 删除成功后重新获取书签列表
+//       getBookmarks()
+//     })
+//   }
+// }
 </script>
 
 <style scoped>
