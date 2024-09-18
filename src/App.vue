@@ -1,16 +1,16 @@
 <template>
-  <div id="app" class="min-h-screen w-full bg-gray-100">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+  <div id="app" class="w-full min-h-screen bg-gray-100">
+    <div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       <div
         v-for="bookmark in bookmarks"
         :key="bookmark.id"
-        class="bg-white rounded-lg shadow-md overflow-hidden p-4 hover:bg-gray-50 relative group"
+        class="relative p-4 overflow-hidden bg-white rounded-lg shadow-md hover:bg-gray-50 group"
       >
         <div class="flex flex-col">
           <a
             :href="bookmark.url"
             target="_blank"
-            class="text-blue-600 hover:text-blue-800 truncate block"
+            class="block text-blue-600 truncate hover:text-blue-800"
             :title="bookmark.title ? bookmark.title : bookmark.url"
           >
             {{ bookmark.title ? bookmark.title : bookmark.url }}
@@ -24,14 +24,14 @@
     <!-- 返回顶部按钮 -->
     <BackToTop />
     <!-- 导出按钮 -->
-    <div class="fixed bottom-8 right-4 z-10">
+    <div class="fixed z-10 bottom-8 right-4">
       <button
         @click="exportBookmarks"
-        class="bg-green-500 hover:bg-green-600 text-white p-3 transition-colors duration-300 shadow-md"
+        class="p-3 text-white transition-colors duration-300 bg-green-500 shadow-md hover:bg-green-600"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
+          class="w-6 h-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -62,6 +62,10 @@ onMounted(() => {
 
 /* 导出书签数据为 JSON 文件 */
 function exportBookmarks() {
+  if (bookmarks.value.length === 0) {
+    alert('没有书签数据')
+    return
+  }
   const bookmarksJson = JSON.stringify(bookmarks.value, null, 2)
   const blob = new Blob([bookmarksJson], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
